@@ -1,6 +1,7 @@
 import cv2
 import face_recognition
 
+# Video explaining basic multithreading: https://www.youtube.com/watch?v=vbtxtvuCFRM
 frames = []
 video_path = './Input Video/Captain_America_ Civil_War.mp4'
 cap = cv2.VideoCapture(video_path)
@@ -16,6 +17,4 @@ while(True):
     else:
         break
 
-for frame in frames:
-    cv2.imshow("Playback", frame)
-    cv2.waitKey(20)
+total_frames = len(frames)

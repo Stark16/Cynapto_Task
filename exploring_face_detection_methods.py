@@ -44,7 +44,7 @@ while(True):
             # cv2.rectangle(frame, (int(box[3]), int(box[0])), (int(box[1]), int(box[2])), (0, 255, 0), 2)
             # print("Printing individually:", box[0])
         cv2.imshow("Faces", frame)
-        if (cv2.waitKey(30) == 27):
+        if (cv2.waitKey(1) == 27):
             break
     else:
         break
