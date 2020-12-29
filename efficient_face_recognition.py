@@ -1,4 +1,5 @@
 from multiprocessing import Pool
+import multiprocessing
 import cv2
 import numpy as np
 import face_recognition
@@ -8,7 +9,7 @@ import time
 # Function that reads the video frames and returns it in frames Variable:
 # By default it can read video of any length, but one can press ESC read the frames to that point in the video
 def read_frames():
-    video_path = './Input Video/Captain_America_ Civil_War.mp4'  # Path to the Video File:
+    video_path = './Input Video/Input_video.mp4'  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
     frames = []  # Variable that will be storing the entire video frame vise
 
@@ -96,24 +97,29 @@ def Prepare_frames(frames_seq):
     return marked_frames
 
 
-# This Function saves the resulting video as output video.
+# This Function saves the resulting video as the output video at 20 FPS.
 def save_video(result, final_video):
     i = 0
+
     for res in result:
         for frame in res:
             final_video[i] = frame
             i += 1
 
+    out = cv2.VideoWriter("Output_Video.mp4", cv2.VideoWriter_fourcc(*'mp4v'), 20, (1280, 720))
     for frame in final_video:
+        out.write(frame)
         cv2.imshow("Finally", frame)
         cv2.waitKey(24)
     cv2.destroyAllWindows()
 
+    print("Now saving the video:")
+
+
 
 if __name__ == '__main__':
     frames = read_frames()
-
-    frame_seq = np.array_split(frames, 4)
+    frame_seq = np.array_split(frames, multiprocessing.cpu_count())
 
     print("Printing OriginalSizes:")
     print("Total: {}, Batch 1: {}, Batch 2: {}, Batch 3: {}, Batch 4: {}, Total Again:{}".format(len(frames),
@@ -133,7 +139,7 @@ if __name__ == '__main__':
     print("Starting Face_Detection Process:")
     print()
 
-    pool = Pool(processes=4)
+    pool = Pool(multiprocessing.cpu_count())
     start = time.time()
     result = pool.map(Prepare_frames, frame_seq)
     pool.close()
