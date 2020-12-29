@@ -8,7 +8,7 @@ import time
 # Function that reads the video frames and returns it in frames Variable:
 # By default it can read video of any length, but one can press ESC read the frames to that point in the video
 def read_frames():
-    video_path = './Input Video/Input_video.mp4'  # Path to the Video File:
+    video_path = './Input Video/Captain_America_ Civil_War.mp4'  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
     frames = []  # Variable that will be storing the entire video frame vise
 
@@ -59,11 +59,11 @@ def Count_distinct_faces(rgb, boxes):
 # > An instance of this function runs on each core of the PC to:
 #       1. Detect the faces in each frame in the given chunk of the video.
 #       2. Mark the Faces with Green Squares using cv2.rectangle().
-#       3. Then the function calls count_distict_faces(rgb, boxes) to get #faces in current frame.
+#       3. Then the function calls Count_distinct_faces(rgb, boxes) to get #faces in current frame.
 #       4. It then prints the #faces in current frames on the left top corner of each frame.
 #       5. It then returns the frames that have faces and #faces written on it, to be reassembled.
 
-def prepare_frames(frames_seq):
+def Prepare_frames(frames_seq):
     marked_frames = np.empty_like(frames_seq)
 
     for i, frame in enumerate(frames_seq):
@@ -106,7 +106,7 @@ def save_video(result, final_video):
 
     for frame in final_video:
         cv2.imshow("Finally", frame)
-        cv2.waitKey(30)
+        cv2.waitKey(24)
     cv2.destroyAllWindows()
 
 
@@ -135,7 +135,7 @@ if __name__ == '__main__':
 
     pool = Pool(processes=4)
     start = time.time()
-    result = pool.map(prepare_frames, frame_seq)
+    result = pool.map(Prepare_frames, frame_seq)
     pool.close()
     pool.join()
 
