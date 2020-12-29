@@ -1,16 +1,18 @@
-from multiprocessing import Pool
+from multiprocessing import Pool        # Pythons Multiprocessing Library
 import multiprocessing
 import cv2
 import numpy as np
-import face_recognition
+import face_recognition                 # Library that has pretrained models for face recognition
 import time
-from tqdm import tqdm
+from tqdm import tqdm                   # tqdm to visually show task progress
 
 
 # Function that reads the video frames and returns it in frames Variable:
 # By default it can read video of any length, but one can press ESC read the frames to that point in the video
-def read_frames():
-    video_path = './Input Video/Input_video.mp4'  # Path to the Video File:
+
+
+def read_frames(input_path):
+    video_path = input_path  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
     frames = []  # Variable that will be storing the entire video frame vise
 
@@ -114,12 +116,16 @@ def save_video(result, final_video):
         cv2.waitKey(24)
     cv2.destroyAllWindows()
 
-    print("Now saving the video:")
+    print("Video saved by the name Output_Video,mp4:")
 
 
 
 if __name__ == '__main__':
-    frames = read_frames()
+    # Some variables that store paths:
+
+    input_path = './Input Video/Input_video.mp4'
+    output_path = "Output_Video.mp4"
+    frames = read_frames(input_path)
     frame_seq = np.array_split(frames, multiprocessing.cpu_count())
 
     print("Printing OriginalSizes:")
@@ -162,9 +168,11 @@ if __name__ == '__main__':
           )
 
     end = time.time()
+    print()
     print("Time taken by 4 Cores: {}s".format(end - start))
     print("All processing Done")
-    print("Saving Video:")
+    print()
+    print("Now Saving Video:")
 
     final_video = np.empty_like(frames)
     save_video(result, final_video)
