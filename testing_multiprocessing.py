@@ -150,9 +150,12 @@ if __name__ == '__main__':
 
     final_video = np.empty_like(frames)
 
+    i=0
     for res in result:
-        for i, frame in enumerate(res):
-            pass
+        for frame in res:
+            final_video[i] = frame
+            i +=1
+
 
     for frame in final_video:
         cv2.imshow("Finally", frame)
