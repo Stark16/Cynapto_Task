@@ -65,9 +65,6 @@ for frame in frames:
     if (no_of_faces != 0):
         total_no_faces = count_total_faces(face_encoders)
 
-
-
-
     font = cv2.FONT_HERSHEY_DUPLEX
     if (no_of_faces == 0):
         text = "No Faces Detected :("

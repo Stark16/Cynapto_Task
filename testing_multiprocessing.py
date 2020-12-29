@@ -6,13 +6,11 @@ import face_recognition
 import time
 
 
-frames = []
-
 
 def read_frames():
     video_path = './Input Video/Input_video.mp4'
     cap = cv2.VideoCapture(video_path)
-
+    frames = []
 
     while (True):
         ret, frame = cap.read()
@@ -25,44 +23,88 @@ def read_frames():
             break
     cv2.destroyAllWindows()
     cap.release()
+    frames = np.array(frames)
+    return frames
+
+
+def count_distict_faces(rgb, boxes):
+    encodings = face_recognition.face_encodings(rgb, boxes)
+    face_count = 0
+    if (len(boxes) != 0):
+        if (len(boxes) == 1):
+            face_count = 1
+
+        elif (len(boxes)>1):
+            true_set = 0
+            for encoding in encodings:
+                result = (face_recognition.compare_faces(encodings, encoding, tolerance=0.3))
+
+                if (result.count(True) == 1):
+                    # print("All distict Faces in the frame")
+                    face_count += 1
+            if (face_count != len(boxes)):
+                diff = len(boxes) - face_count
+                if (2 <= diff <= 3):
+                    face_count += 1
+    #print("{} Unique Faces detected in the Frame".format(face_count))
+
+    return face_count, encodings
 
 
 def prepare_frames(frames_seq):
-    marked_frames = []
-    for frame in frames_seq:
-        bgr = cv2.resize(frame, (int(frame.shape[1] / 1.5), int(frame.shape[0] / 1.5)))
-        bgr = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
-        boxes = face_recognition.face_locations(bgr, model='cnn')
+    marked_frames = np.empty_like(frames_seq)
+
+    for i, frame in enumerate(frames_seq):
+        rgb = cv2.resize(frame, (int(frame.shape[1] / 1.5), int(frame.shape[0] / 1.5)))
+        rgb = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
+        boxes = face_recognition.face_locations(rgb, model='cnn')
         for box in boxes:
             cv2.rectangle(frame, (int(box[3]*1.5), int(box[0]*1.5)), (int(box[1]*1.5), int(box[2]*1.5)), (0, 255, 0), 2)
-        marked_frames.append(frame)
         # print("1 frame converted now:", len(boxes))
+
+        '''no_of_faces, face_encoders = count_distict_faces(rgb, boxes)
+
+        font = cv2.FONT_HERSHEY_DUPLEX
+        if (no_of_faces == 0):
+            text = "No Faces Detected :("
+        elif (no_of_faces == 1):
+            text = str(no_of_faces) + " Unique Face"
+        else:
+            text = str(no_of_faces) + " Unique Faces"
+        # print(frame.shape)
+        cv2.putText(frame, text, (0, 40), font, 1, (100, 100, 240))'''
+        marked_frames[i] = frame
+
+    #marked_frames = np.array(marked_frames)
     print()
     print("1 bunch Done")
+
     return marked_frames
 
-def split_frames(no_processors, frames):
+'''def split_frames(no_processors, frames):
     interval_width = len(frames)//no_processors
     frame_seq = []
     for i in range(no_processors):
         frame_seq.append(frames[i:(i+1)*interval_width])
     frame_seq = np.array(frame_seq)
-    print("Shape of each frame chunk: Seq1: ".format(frame_seq.shape))
+    print("Shape of each frame chunk: Seq1: ".format(frame_seq.shape))'''
 
 
 
 if __name__ == '__main__':
-    read_frames()
+    frames = read_frames()
     print("Total Frames: ", len(frames))
 
 
 
-    frame_seq1 = np.array(frames[:len(frames)//2])
-    frame_seq2 = np.array(frames[len(frames)//2:])
-    frame_seq3 = np.array(frame_seq1[:len(frame_seq1)//2])
-    frame_seq4 = np.array(frame_seq1[len(frame_seq1)//2:])
-    frame_seq5 = np.array(frame_seq2[:len(frame_seq2)//2])
-    frame_seq6 = np.array(frame_seq2[len(frame_seq2)//2:])
+    frame_seq1 = frames[:len(frames)//2]
+    frame_seq2 = frames[len(frames)//2:]
+    frame_seq3 = frame_seq1[:len(frame_seq1)//2]
+    frame_seq4 = frame_seq1[len(frame_seq1)//2:]
+    frame_seq5 = frame_seq2[:len(frame_seq2)//2]
+    frame_seq6 = frame_seq2[len(frame_seq2)//2:]
+
+
 
     print("Total: {}, Segment1: {}, Segment2: {}, Segment3: {}, Segment4: {}, Total Again:{}".format(len(frames), len(frame_seq3),
                                                                                                                                  len(frame_seq4), len(frame_seq5),
@@ -71,6 +113,8 @@ if __name__ == '__main__':
                                                                                                                                  len(frame_seq5)+len(frame_seq6))))
 
     frame_seq = np.array([frame_seq3, frame_seq4, frame_seq5, frame_seq6])
+
+
 
     start = time.time()
     #prepare_frames(frames)
@@ -81,6 +125,7 @@ if __name__ == '__main__':
     pool = Pool(processes=4)
 
     start = time.time()
+
 
     result = pool.map(prepare_frames, frame_seq)
     pool.close()
@@ -103,6 +148,16 @@ if __name__ == '__main__':
     print("All processing Done")
 
 
+    final_video = np.empty_like(frames)
+
+    for res in result:
+        for i, frame in enumerate(res):
+            pass
+
+    for frame in final_video:
+        cv2.imshow("Finally", frame)
+        cv2.waitKey(30)
+    cv2.destroyAllWindows()
 
 
 
@@ -117,7 +172,9 @@ if __name__ == '__main__':
 
 
 
-'''ef prepare_frames():
+
+
+'''def prepare_frames():
     for frame in frames:
         rgb = cv2.resize(frame, (int(frame.shape[1] / 1.5), int(frame.shape[0] / 1.5)))
         # cv2.imshow("frame", frame)
