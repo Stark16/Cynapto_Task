@@ -1,46 +1,16 @@
 from multiprocessing import Pool
 import cv2
+import numpy as np
 import face_recognition
-
-# Video explaining basic multithreading: https://www.youtube.com/watch?v=vbtxtvuCFRM
-frames = []
-
-class single_frame_detection:
-
-    def create_video_snippets(self, frames):
-        total = len(frames)
-        total_threads = 2
-        frames1 = frames[:int(len(frames)/2)]
-        frames2 = frames[int(len(frames)/2):]
-
-        '''
-        print("Total Frames: ", len(frames))
-        print("Calculated Frames in 1st snippet: {}, Actual Frames in 1st Snippet: {}".format(len(frames)/2, len(frames1)))
-        print("Calculated Frames in 2nd snippet: {}, Actual Frames in 2nd Snippet: {}".format(len(frames)/2+1, len(frames2)))
-
-        print("All Frames accounted for") if (len(frames) == (len(frames1) + len(frames2))) else print("{} frames missing".format(len(frames) - (len(frames1) + len(frames2))))
-        
-        for frame in frames1:
-            cv2.imshow("snippet1", frame)
-            cv2.waitKey(1)
-        for frame in frames2:
-            cv2.imshow("snippet2", frame)
-            cv2.waitKey(1)
-        '''
-        return frames1, frames2
-
-    def detect_faces(self, frame_seq, num):
-        for frame in frame_seq:
-            cv2.imshow(str(num), frame)
-            cv2.waitKey(20)
-        cv2.destroyAllWindows()
+import time
 
 
+# Function that reads the video frames and returns it in frames Variable:
+# By default it can read video of any length, but one can press ESC read the frames to that point in the video
 def read_frames():
-    video_path = './Input Video/Captain_America_ Civil_War.mp4'
+    video_path = './Input Video/Input_video.mp4'  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
-
-    scaling_factor = 1.5
+    frames = []  # Variable that will be storing the entire video frame vise
 
     while (True):
         ret, frame = cap.read()
@@ -53,24 +23,142 @@ def read_frames():
             break
     cv2.destroyAllWindows()
     cap.release()
+    frames = np.array(frames)
+    return frames
 
-def multi_face_detection(frame_seq1, frame_seq2):
-    a = single_frame_detection()
-    b = single_frame_detection()
-    pool = Pool(processes=2)
-    p1 = pool.apply_async(a.detect_faces, [frame_seq1, 1])
-    p2 = pool.apply_async(b.detect_faces, [frame_seq2, 2])
 
+# Function that takes RGB image as input and returns # Faces in the image, and their 128-dim Feature vector:
+# Count_distinct_faces also return face_encodings of each frame which can be used to count total #unique faces
+# till current frame.
+def Count_distinct_faces(rgb, boxes):
+    # encodings variable holds the 128-dim features in the current frame
+    encodings = face_recognition.face_encodings(rgb, boxes)
+    face_count = 0
+    if (len(boxes) != 0):
+        if (len(boxes) == 1):
+            face_count = 1
+
+        elif (len(boxes) > 1):
+            for encoding in encodings:
+                result = (face_recognition.compare_faces(encodings, encoding, tolerance=0.3))
+
+                if (result.count(True) == 1):
+                    # print("All distinct Faces in the frame")
+                    face_count += 1
+            if (face_count != len(boxes)):
+                diff = len(boxes) - face_count
+                if (2 <= diff <= 3):
+                    face_count += 1
+    # print("{} Unique Faces detected in the Frame".format(face_count))
+
+    return face_count, encodings
+
+
+# Function is also a worker function:
+# > It is provided with a chunk of video frames out of the total video frames.
+# > An instance of this function runs on each core of the PC to:
+#       1. Detect the faces in each frame in the given chunk of the video.
+#       2. Mark the Faces with Green Squares using cv2.rectangle().
+#       3. Then the function calls count_distict_faces(rgb, boxes) to get #faces in current frame.
+#       4. It then prints the #faces in current frames on the left top corner of each frame.
+#       5. It then returns the frames that have faces and #faces written on it, to be reassembled.
+
+def prepare_frames(frames_seq):
+    marked_frames = np.empty_like(frames_seq)
+
+    for i, frame in enumerate(frames_seq):
+        rgb = cv2.resize(frame, (int(frame.shape[1] / 1.5), int(frame.shape[0] / 1.5)))
+        rgb = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
+        boxes = face_recognition.face_locations(rgb, model='cnn')
+        for box in boxes:
+            cv2.rectangle(frame, (int(box[3] * 1.5), int(box[0] * 1.5)), (int(box[1] * 1.5), int(box[2] * 1.5)),
+                          (0, 255, 0), 2)
+        # print("1 frame converted now:", len(boxes))
+
+        no_of_faces, face_encoders = Count_distinct_faces(rgb, boxes)
+
+        font = cv2.FONT_HERSHEY_DUPLEX
+
+        # A completely unnecessary if else ladder performance wise,
+        # But completely necessary to have a good english sence when printing #faces in current frame.
+        if (no_of_faces == 0):
+            text = "No Faces Detected :("
+        elif (no_of_faces == 1):
+            text = str(no_of_faces) + " Unique Face"
+        else:
+            text = str(no_of_faces) + " Unique Faces"
+        # print(frame.shape)
+        cv2.putText(frame, text, (0, 40), font, 1, (100, 100, 240))
+        marked_frames[i] = frame
+
+    # marked_frames = np.array(marked_frames)
+    print("Batch Done")
+    return marked_frames
+
+
+# This Function saves the resulting video as output video.
+def save_video(result, final_video):
+    i = 0
+    for res in result:
+        for frame in res:
+            final_video[i] = frame
+            i += 1
+
+    for frame in final_video:
+        cv2.imshow("Finally", frame)
+        cv2.waitKey(30)
+    cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    frames = read_frames()
+
+    frame_seq = np.array_split(frames, 4)
+
+    print("Printing OriginalSizes:")
+    print("Total: {}, Batch 1: {}, Batch 2: {}, Batch 3: {}, Batch 4: {}, Total Again:{}".format(len(frames),
+                                                                                                 len(frame_seq[0]),
+                                                                                                 len(frame_seq[1]),
+                                                                                                 len(frame_seq[2]),
+                                                                                                 len(frame_seq[3]),
+                                                                                                (len(frame_seq[0]) +
+                                                                                                 len(frame_seq[1]) +
+                                                                                                 len(frame_seq[2]) +
+                                                                                                 len(frame_seq[3])
+                                                                                                )
+                                                                                                )
+          )
+    print()
+
+    print("Starting Face_Detection Process:")
+    print()
+
+    pool = Pool(processes=4)
+    start = time.time()
+    result = pool.map(prepare_frames, frame_seq)
     pool.close()
     pool.join()
 
+    print()
+    print("Face Detection Done, now printing dimensions of results:")
+    print("Total: {}, Segment1: {}, Segment2: {}, Segment3: {}, Segment4: {}, Total Again:{}".format(len(result),
+                                                                                                     len(result[0]),
+                                                                                                     len(result[1]),
+                                                                                                     len(result[2]),
+                                                                                                     len(result[3]),
+                                                                                                     (len(result[0]) +
+                                                                                                      len(result[1]) +
+                                                                                                      len(result[2]) +
+                                                                                                      len(result[3])
+                                                                                                      )
+                                                                                                     )
+          )
 
+    end = time.time()
+    print("Time taken by 4 Cores: {}s".format(end - start))
+    print("All processing Done")
+    print("Saving Video:")
 
-read_frames()
-
-ob1 = single_frame_detection()
-frames1, frames2 = ob1.create_video_snippets(frames)
-multi_face_detection(frames1, frames2)
-
-
+    final_video = np.empty_like(frames)
+    save_video(result, final_video)
 

@@ -1,7 +1,6 @@
-from multiprocessing import Pool, Process, Array
+from multiprocessing import Pool
 import cv2
 import numpy as np
-import multiprocessing
 import face_recognition
 import time
 
@@ -17,7 +16,7 @@ def read_frames():
         if (ret):
             cv2.imshow("video", frame)
             frames.append(frame)
-            if (cv2.waitKey(30) == 27):
+            if (cv2.waitKey(1) == 27):
                 break
         else:
             break
@@ -62,7 +61,7 @@ def prepare_frames(frames_seq):
             cv2.rectangle(frame, (int(box[3]*1.5), int(box[0]*1.5)), (int(box[1]*1.5), int(box[2]*1.5)), (0, 255, 0), 2)
         # print("1 frame converted now:", len(boxes))
 
-        '''no_of_faces, face_encoders = count_distict_faces(rgb, boxes)
+        no_of_faces, face_encoders = count_distict_faces(rgb, boxes)
 
         font = cv2.FONT_HERSHEY_DUPLEX
         if (no_of_faces == 0):
@@ -72,7 +71,7 @@ def prepare_frames(frames_seq):
         else:
             text = str(no_of_faces) + " Unique Faces"
         # print(frame.shape)
-        cv2.putText(frame, text, (0, 40), font, 1, (100, 100, 240))'''
+        cv2.putText(frame, text, (0, 40), font, 1, (100, 100, 240))
         marked_frames[i] = frame
 
     #marked_frames = np.array(marked_frames)
@@ -113,6 +112,8 @@ if __name__ == '__main__':
                                                                                                                                  len(frame_seq5)+len(frame_seq6))))
 
     frame_seq = np.array([frame_seq3, frame_seq4, frame_seq5, frame_seq6])
+    splitted = np.array_split(frames, 4)
+    #print(splitted.shape)
 
 
 
@@ -127,7 +128,7 @@ if __name__ == '__main__':
     start = time.time()
 
 
-    result = pool.map(prepare_frames, frame_seq)
+    result = pool.map(prepare_frames, splitted)
     pool.close()
     pool.join()
 
@@ -143,7 +144,7 @@ if __name__ == '__main__':
                                                                                                           result[2]) + len(
                                                                                                                  result[3]))))
     end = time.time()
-    print("Time taken by 2 Cores: {}ms".format(end-start))
+    print("Time taken by 4 Cores: {}s".format(end-start))
 
     print("All processing Done")
 
