@@ -35,3 +35,7 @@ Here is the general approach towards achieving the primary objective of the assi
 
 * `Input_video.mp4` is the 25 secs input video chosen for processing. Which after processing will save a file named `Output_video.mp4`.
 * All files related to cython and C conversion of the script are inside the `Experimenting_with_cython` directory.
+
+How to run the system:
+* One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided they have the required libraries installed in the           environment.
+* To change the Input video path, or output video path, once can find the variables mentioned inside the script along with more details on them.
