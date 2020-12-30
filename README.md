@@ -3,7 +3,6 @@
          video in 720p, 20 FPS in `.mp4` format.
          
 File Structure:
-
 |
 
 |- efficient_face_recognition.py*
