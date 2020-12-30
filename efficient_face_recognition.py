@@ -1,6 +1,6 @@
 from multiprocessing import Pool        # Pythons Multiprocessing Library
 import multiprocessing
-import cv2
+import cv2                              #
 import numpy as np
 import face_recognition                 # Library that has pretrained models for face recognition
 import time
@@ -122,6 +122,9 @@ def save_video(result, final_video):
 
 if __name__ == '__main__':
     # Some variables that store paths:
+    # TO change the input video or output video path one can change the following variables.
+    # I was originally planning on doing argpars, but since I am using Pycharm and run scripts from there directly
+    # I haven't used argparse.
 
     input_path = './Input Video/Input_video.mp4'
     output_path = "Output_Video.mp4"
