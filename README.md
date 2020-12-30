@@ -46,4 +46,4 @@ How to run the system:
          - Conda virual environment: *4.7.12*
          - Python *3.7*
          - cython *0.29.21*
-         - Library Information is the script.
+         - Library Information is available in the script.
