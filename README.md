@@ -22,4 +22,7 @@ Here is the general approach towards achieving the primary objective of the assi
 2. It reads the `Input_video.mp4` video file frame by frame then stores it into a `numpy` list of BGR image sequnce of each frame of the video.
 3. After getting total number of frames read from the video, the entire array is distributed into n "chunks" where n = #CPU cores.
 4. By distributing the work into individual CPU cores, we call a worker function that using the `face_recognition` library to find `face_encodings` and `bounding_boxes`              of all the faces in current frame.
-5. 
+5. `face_encoding` is a 128 dimenstional representation of the faces in frame. `bounding_boxes` contains the *left_top* and *right_bottom* co-ordinates of the bounding boxes for      the face.
+6. For each frame, we take in all the face_encoding and see if the total number of distinct face_encoding matches the #bounding_boces.
+7. *If yes*: That means all the faces on the frame are distinct.
+   *If No*:
