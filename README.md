@@ -25,4 +25,9 @@ Here is the general approach towards achieving the primary objective of the assi
 5. `face_encoding` is a 128 dimenstional representation of the faces in frame. `bounding_boxes` contains the *left_top* and *right_bottom* co-ordinates of the bounding boxes for      the face.
 6. For each frame, we take in all the face_encoding and see if the total number of distinct face_encoding matches the #bounding_boces.
 7. *If yes*: That means all the faces on the frame are distinct.
-   *If No*:
+   *If No*: we count the difference between #face_encodings and #bounding_boxes. That gives us 3 basic possibilities of how the face may be repeated.
+8. Step 7 is important as it ensures that only "unique" faces are counted (Which means counting twins/triplets as single unique face).
+9. The number of Faces is then returned and displayed on the frame.
+10. After all the frames are processed, the video is reassembled, and saved as `Output_video.mp4` at 720p 20 FPS as mentioned in the problem statement.
+11. `efficient_face_recognition.pyx` is the cython file of the same script. 
+12. A pip package named `easy_cython` is used to build a cythonized version of the original script. This allows the script to be executed with much more efficiency using a cython compiler, which allows for faster execution of intructions if we perform type decelration of the original python script variables.
