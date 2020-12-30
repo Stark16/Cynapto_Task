@@ -16,7 +16,7 @@ File Structure:
                   |- efficient_face_recognition.pyx*
                   |- efficient_face_recognition.html*
 
-Here is the general approach towards achieving the primary objective of the assignment:
+> Here is the general approach towards achieving the primary objective of the assignment:
 
 1. `efficient_face_recognition.py` is the main python script that performs the said AIM of the assignment. 
 2. It reads the `Input_video.mp4` video file frame by frame then stores it into a `numpy` list of BGR image sequnce of each frame of the video.
