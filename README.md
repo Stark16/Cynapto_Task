@@ -3,12 +3,11 @@
          video in 720p, 20 FPS in `.mp4` format.
          
 File Structure:
-|
-
-|- efficient_face_recognition.py*
-|- Input_video.mp4*
-|- README.md*
-|- Experimenting_with_cython
+ |
+ |- efficient_face_recognition.py*
+ |- Input_video.mp4*
+ |- README.md*
+ |- Experimenting_with_cython
          |
          |- build
          |- efficient_face_recognition.c*
