@@ -19,5 +19,7 @@ File Structure:
 Here is the general approach towards achieving the primary objective of the assignment:
 
          1. `efficient_face_recognition.py` is the main python script that performs the said AIM of the assignment. 
-         2. It reads the video file frame by frame then stores it into a `numpy` list of BGR image sequnce of each frame of the video.
-         3. 
+         2. It reads the `Input_video.mp4` video file frame by frame then stores it into a `numpy` list of BGR image sequnce of each frame of the video.
+         3. After getting total number of frames read from the video, the entire array is distributed into n "chunks" where n = #CPU cores.
+         4. By distributing the work into individual CPU cores, we call a worker function that using the `face_recognition` library to find `face_encodings` and `bounding_boxes`            of all the faces in current frame.
+         5.
