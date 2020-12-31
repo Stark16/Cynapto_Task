@@ -5,17 +5,20 @@
          
 File Structure:
 
-         |- efficient_face_recognition.py*
-         |- Input_video.mp4*
-         |- README.md*
-         |- Experimenting_with_cython 
+         |- Scripts
+         |- cythonized_version
                   |
                   |- build
                   |- efficient_face_recognition.c*
-                  |- efficient_face_recognition.cp37-win_amd64.pyd*
+                  |- efficient_face_recognition.pyd*
                   |- efficient_face_recognition.pyx*
-                  |- efficient_face_recognition.html*
-
+                  |- efficient_face_recognition.html
+                  |- main_file.py*
+                  |- setup.py*
+          |
+          |- efficient_face_recognition.py
+          |- Multi_frame_detection.py
+          
 Here is the general approach towards achieving the primary objective of the assignment:
 
 1. `efficient_face_recognition.py` is the main python script that performs the said AIM of the assignment. 
