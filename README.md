@@ -73,11 +73,11 @@ All files marked with * are directly realted to the assignment's problem stateme
 9. The number of Faces is then returned and displayed on the frame.
 10. After all the frames are processed, the video is reassembled, and saved as `Output_video.mp4` at 720p 20 FPS as mentioned in the problem statement.
 11. `efficient_face_recognition.pyx` is the cython file of the same script. 
-12. A pip package named `easy_cython` is used to build a cythonized version of the original script. This allows the script to be executed with much more efficiency                  using a cython compiler, which allows for faster execution of intructions if we perform type decelration of the original python script variables.
-13. It also produces the required `c` and `pyd` files.
+12. `setup.py`  is used to build a cythonized version of the original script. This allows the script to be executed with much more efficiency using a cython compiler, which allows for faster execution of intructions if we perform type decelration of the original python script variables.
+13. It also produces the required `c` and `pyd` files, cython actally compiles the `efficient_face_recognition.c` file where the major speed boost comes form pre-decalring variable and return types..
 
 * `Input_video.mp4` is the 25 secs input video chosen for processing. Which after processing will save a file named `Output_video.mp4`.
-* All files related to cython and C conversion of the script are inside the `Experimenting_with_cython` directory.
+* All files related to cython and C conversion of the script are inside the `cythonized_version` directory.
 
 
 
