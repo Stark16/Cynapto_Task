@@ -1,3 +1,7 @@
+# distutils: language=c
+#!python
+#cython: language_level=3
+
 from multiprocessing import Pool        # Pythons Multiprocessing Library
 import multiprocessing
 import cv2                              #
@@ -6,14 +10,16 @@ import face_recognition                 # Library that has pertained models for 
 import time
 from tqdm import tqdm                   # tqdm to visually show task progress
 
+cimport numpy
 
 # Function that reads the video frames and returns it in frames Variable:
 # By default it can read video of any length, but one can press ESC read the frames to that point in the video
-def read_frames(input_path):
+cdef numpy.ndarray read_frames(input_path):
     video_path = input_path  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
     frames = []  # Variable that will be storing the entire video frame vise
-
+    cdef bint ret
+    cdef numpy.ndarray frame
     while (True):
         ret, frame = cap.read()
         if (ret):
@@ -35,7 +41,7 @@ def read_frames(input_path):
 def Count_distinct_faces(rgb, boxes):
     # encodings variable holds the 128-dim features in the current frame
     encodings = face_recognition.face_encodings(rgb, boxes)
-    face_count = 0
+    cdef unsigned int face_count = 0
     if (len(boxes) != 0):
         if (len(boxes) == 1):
             face_count = 1
@@ -67,7 +73,7 @@ def Count_distinct_faces(rgb, boxes):
 
 def Prepare_frames(frames_seq):
     marked_frames = np.empty_like(frames_seq)
-
+    cdef unsigned int i
     for i, frame in tqdm(enumerate(frames_seq)):
         rgb = cv2.resize(frame, (int(frame.shape[1] / 1.2), int(frame.shape[0] / 1.2)))
         rgb = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
@@ -101,8 +107,7 @@ def Prepare_frames(frames_seq):
 
 # This Function saves the resulting video as the output video at 20 FPS.
 def save_video(result, final_video, path):
-    i = 0
-
+    cdef unsigned int i = 0
     for res in result:
         for frame in res:
             final_video[i] = frame
@@ -119,7 +124,7 @@ def save_video(result, final_video, path):
 
 
 
-if __name__ == '__main__':
+cpdef void main():
     # Some variables that store paths:
     # TO change the input video or output video path one can change the following variables.
     # I was originally planning on doing argpars, but since I am using Pycharm and run scripts from there directly
@@ -127,8 +132,10 @@ if __name__ == '__main__':
 
     input_path = './../../Videos/Input_video.mp4'
     output_path = './../../Videos/Output_video_cython.mp4'
-    frames = read_frames(input_path)
-    frame_seq = np.array_split(frames, multiprocessing.cpu_count())
+    cdef numpy.ndarray frames = read_frames(input_path)
+    print(type(frames))
+    cdef numpy.ndarray frame_seq = np.array(np.array_split(frames, multiprocessing.cpu_count()))
+    print(type(frame_seq))
 
     print("Printing OriginalSizes:")
     print("Total: {}, Batch 1: {}, Batch 2: {}, Batch 3: {}, Batch 4: {}, Total Again:{}".format(len(frames),
