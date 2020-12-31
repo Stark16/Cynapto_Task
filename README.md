@@ -4,6 +4,7 @@
          video in 720p, 20 FPS in `.mp4` format.
          
 File Structure:
+All files marked with * are directly realted to the assignment's problem statement.
 
          |- Scripts
          |- cythonized_version
@@ -46,6 +47,7 @@ How to run the system:
 * To change the Input video path, or output video path, once can find the variables mentioned inside the script along with more details on them.
 
 > Environment details:
+
          - Conda virual environment: *4.7.12*
          - Python *3.7*
          - cython *0.29.21*
