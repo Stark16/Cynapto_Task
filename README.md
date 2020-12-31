@@ -35,7 +35,7 @@ All files marked with * are directly realted to the assignment's problem stateme
          
 - *cythonized_version*: 
 
-         * To convert the python scripts into C, I have used cython compiler. I'll explain how I did in breif.
+         - To convert the python scripts into C, I have used cython compiler. I'll explain how I did in breif.
          
          * The original python script is saved as "efficient_face_recognition.pyx" which is imoprted as module in 
          "main_file.py" to be executed.
