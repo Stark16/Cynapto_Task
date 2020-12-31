@@ -46,8 +46,10 @@ All files marked with * are directly realted to the assignment's problem stateme
 
 - *efficient_face_recognition.py* (The python version):
 
-* One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided they have the required libraries installed in the           environment.
-* To change the Input video path, or output video path, once can find the variables mentioned inside the script along with more details on them.
+         * One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided 
+         they have the required libraries installed in the environment.
+         * To change the Input video path, or output video path, once can find the variables mentioned inside the script along 
+         with more details on them.
           
 Here is the general approach towards achieving the primary objective of the assignment:
 
