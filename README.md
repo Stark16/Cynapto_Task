@@ -1,9 +1,9 @@
 # Cynapto_Task
 
-**AIM**: To Read a given 720p video in `.mp4` format, then count and display the number of unique faces detected on current frame. Then Save the newly created 
+> **AIM**: To Read a given 720p video in `.mp4` format, then count and display the number of unique faces detected on current frame. Then Save the newly created 
          video in 720p, 20 FPS in `.mp4` format.
          
-File Structure:
+> **File Structure**:
 All files marked with * are directly realted to the assignment's problem statement.
 
       |- Scripts
@@ -18,7 +18,12 @@ All files marked with * are directly realted to the assignment's problem stateme
                   |- setup.py*
         |
         |- efficient_face_recognition.py
-        |- Multi_frame_detection.py
+      |
+      |- Videos
+        |- Input_video.mp4*
+        |- Input_video2.mp4*
+        |- Output_video.mp4*
+      |
         
 > **Explaining directory structure**:
 
@@ -54,7 +59,7 @@ All files marked with * are directly realted to the assignment's problem stateme
          * To change the Input video path, or output video path, once can find the variables mentioned inside the script along 
          with more details on them.
           
-Here is the general approach towards achieving the primary objective of the assignment:
+> **Here is the general approach towards achieving the primary objective of the assignment**:
 
 1. `efficient_face_recognition.py` is the main python script that performs the said AIM of the assignment. 
 2. It reads the `Input_video.mp4` video file frame by frame then stores it into a `numpy` list of BGR image sequnce of each frame of the video.
