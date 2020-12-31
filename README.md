@@ -58,6 +58,20 @@ All files marked with * are directly realted to the assignment's problem stateme
          
          * To change the Input video path, or output video path, once can find the variables mentioned inside the script along 
          with more details on them.
+         
+> ** Setting up dlib and face_recognition with/without CUDA:** In your virtual environment (if any):
+
+* $ `pip intall dlib`
+* $ 'git clone https://github.com/davisking/dlib.git'
+* $ `cd dlib`
+* $ `mkdir build`
+* $ `cd build`
+* $ `cmake .. -DDLIB_USE_CUDA=1 -DUSE_AVX_INSTRUCTIONS=1`
+* $ `cmake --build .`
+* $ `cd ..`
+* $ `python setup.py install --set USE_AVX_INSTRUCTIONS --set DLIB_USE_CUDA` "For cuda installation
+
+More detailed installation can be found here: https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
           
 > **Here is the general approach towards achieving the primary objective of the assignment**:
 
