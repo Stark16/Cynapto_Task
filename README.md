@@ -6,7 +6,7 @@
 File Structure:
 All files marked with * are directly realted to the assignment's problem statement.
 
-         |- Scripts
+      |- Scripts
          |- cythonized_version
                   |
                   |- build
