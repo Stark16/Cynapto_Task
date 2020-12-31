@@ -102,7 +102,7 @@ def Prepare_frames(frames_seq):
 
 
 # This Function saves the resulting video as the output video at 20 FPS.
-def save_video(result, final_video):
+def save_video(result, final_video, path):
     i = 0
 
     for res in result:
@@ -127,8 +127,8 @@ if __name__ == '__main__':
     # I was originally planning on doing argpars, but since I am using Pycharm and run scripts from there directly
     # I haven't used argparse.
 
-    input_path = './Input Video/Input_video.mp4'
-    output_path = "Output_Video.mp4"
+    input_path = './../Input Video/Input_video.mp4'
+    output_path = "./../Videos/Output_video.mp4"
     frames = read_frames(input_path)
     frame_seq = np.array_split(frames, multiprocessing.cpu_count())
 
@@ -179,5 +179,5 @@ if __name__ == '__main__':
     print("Now Saving Video:")
 
     final_video = np.empty_like(frames)
-    save_video(result, final_video)
+    save_video(result, final_video, output_path)
 
