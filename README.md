@@ -22,24 +22,29 @@ All files marked with * are directly realted to the assignment's problem stateme
         
 > **Explaining directory structure**:
 
-* There are a 2 major parent directories named Scripts and Videos.
+ * There are a 2 major parent directories named Scripts and Videos.
          
-* Video contain the Input video that is name *Input_video.mp4* and *Input_video2.mp4* the final output video is also saved in this directory with the name Output_video.mp4*.
+ * Video contain the Input video that is name *Input_video.mp4* and *Input_video2.mp4* the final output video is also saved in this directory with the name Output_video.mp4*.
          
 * All the scripts are stored inside a Scripts folder. Which has 1 folder called *cythonized_version* and few python scripts that are the original version of theassignment scripts written in python.
          
 - *cythonized_version*: 
 
          * To convert the python scripts into C, I have used cython compiler. I'll explain how I did in breif.
-         * The original python script is saved as *efficient_face_recognition.pyx* which is imoprted as module in *main.py* to be executed.
+         
+         * The original python script is saved as *efficient_face_recognition.pyx* which is imoprted as module in *main_file.py* to be executed.
+         
          * In order to compiler the *efficient_face_recognition.pyx* to *efficient_face_recognition.c* I have written *setup.py* 
            which compiles the *efficient_face_recognition* into *efficient_face_recognition.c* and also produce a *efficient_face_recognition.html* 
            that is visual representation of which parts of the script usese python objetcs as variable types.
-         * To re-build the *efficient_face_recognition.c* run the following command in *cythonized_version* directory
+           
+         * To re-build the *efficient_face_recognition.c* run the following command in *cythonized_version* directory:
          > `python setup.py build_ext --inplace`
+         
+         * Then finally to execute the cythonized verison, I.e the *efficient_face_recognition.c* run the following command:
+         > `python main_file.py`
 
-
-How to run the system:
+- *efficient_face_recognition.py* (The python version):
 
 * One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided they have the required libraries installed in the           environment.
 * To change the Input video path, or output video path, once can find the variables mentioned inside the script along with more details on them.
