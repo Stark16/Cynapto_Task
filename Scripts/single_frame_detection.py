@@ -3,7 +3,7 @@ import face_recognition
 
 # Video explaining basic multithreading: https://www.youtube.com/watch?v=vbtxtvuCFRM
 frames = []
-video_path = './Input Video/Captain_America_ Civil_War.mp4'
+video_path = './../Videos/Input_video.mp4'
 cap = cv2.VideoCapture(video_path)
 
 scaling_factor = 1.5
