@@ -147,6 +147,7 @@ if __name__ == '__main__':
 
     print("Starting Face_Detection Process:")
     print()
+    start = time.time()
 
     pool = Pool(multiprocessing.cpu_count())
     start = time.time()
@@ -178,4 +179,6 @@ if __name__ == '__main__':
 
     final_video = np.empty_like(frames)
     save_video(result, final_video, output_path)
+
+    print("Total time taken for processing:", end - start)
 
