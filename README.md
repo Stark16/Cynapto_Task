@@ -32,11 +32,13 @@ All files marked with * are directly realted to the assignment's problem stateme
 
          * To convert the python scripts into C, I have used cython compiler. I'll explain how I did in breif.
          
-         * The original python script is saved as *efficient_face_recognition.pyx* which is imoprted as module in *main_file.py* to be executed.
+         * The original python script is saved as *efficient_face_recognition.pyx* which is imoprted as module in 
+         *main_file.py* to be executed.
          
          * In order to compiler the *efficient_face_recognition.pyx* to *efficient_face_recognition.c* I have written *setup.py* 
-           which compiles the *efficient_face_recognition* into *efficient_face_recognition.c* and also produce a *efficient_face_recognition.html* 
-           that is visual representation of which parts of the script usese python objetcs as variable types.
+           which compiles the *efficient_face_recognition* into *efficient_face_recognition.c* and also produce 
+           a *efficient_face_recognition.html* that is visual representation of which parts of the script usese python objetcs 
+           as variable types.
            
          * To re-build the *efficient_face_recognition.c* run the following command in *cythonized_version* directory:
          > `python setup.py build_ext --inplace`
@@ -48,6 +50,7 @@ All files marked with * are directly realted to the assignment's problem stateme
 
          * One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided 
          they have the required libraries installed in the environment.
+         
          * To change the Input video path, or output video path, once can find the variables mentioned inside the script along 
          with more details on them.
           
