@@ -16,9 +16,24 @@ All files marked with * are directly realted to the assignment's problem stateme
                   |- efficient_face_recognition.html
                   |- main_file.py*
                   |- setup.py*
-          |
-          |- efficient_face_recognition.py
-          |- Multi_frame_detection.py
+        |
+        |- efficient_face_recognition.py
+        |- Multi_frame_detection.py
+        
+> Explaining directory structure:
+
+* There are a 2 major parent directories named Scripts and Videos
+* Video contain the Input video that is name *Input_video.mp4* and *Input_video2.mp4* the final output video is also saved in this directory with the name *Output_video.mp4*
+* All the scripts are stored inside a Scripts folder. Which has 1 folder called *cythonized_version* and few python scripts that are the original version of the assignment scripts written in python.
+- **cythonized_version**: 
+
+         *
+
+
+How to run the system:
+
+* One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided they have the required libraries installed in the           environment.
+* To change the Input video path, or output video path, once can find the variables mentioned inside the script along with more details on them.
           
 Here is the general approach towards achieving the primary objective of the assignment:
 
@@ -41,10 +56,6 @@ Here is the general approach towards achieving the primary objective of the assi
 * All files related to cython and C conversion of the script are inside the `Experimenting_with_cython` directory.
 
 
-How to run the system:
-
-* One can run the `efficient_face_recognition.py` with any Python 3.X interpreter to produce the output video provided they have the required libraries installed in the           environment.
-* To change the Input video path, or output video path, once can find the variables mentioned inside the script along with more details on them.
 
 > Environment details:
 
