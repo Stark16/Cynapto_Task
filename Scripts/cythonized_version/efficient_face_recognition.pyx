@@ -108,7 +108,7 @@ def save_video(result, final_video, path):
             final_video[i] = frame
             i += 1
 
-    out = cv2.VideoWriter("Output_Video.mp4", cv2.VideoWriter_fourcc(*'mp4v'), 20, (1280, 720))
+    out = cv2.VideoWriter(path, cv2.VideoWriter_fourcc(*'mp4v'), 20, (1280, 720))
     for frame in tqdm(final_video):
         out.write(frame)
         cv2.imshow("Finally", frame)
@@ -125,8 +125,8 @@ if __name__ == '__main__':
     # I was originally planning on doing argpars, but since I am using Pycharm and run scripts from there directly
     # I haven't used argparse.
 
-    input_path = './../Videos/Input_video.mp4'
-    output_path = "./../Videos/Output_video.mp4"
+    input_path = './../../Videos/Input_video.mp4'
+    output_path = './../../Videos/Output_video_cython.mp4'
     frames = read_frames(input_path)
     frame_seq = np.array_split(frames, multiprocessing.cpu_count())
 
@@ -150,7 +150,6 @@ if __name__ == '__main__':
     start = time.time()
 
     pool = Pool(multiprocessing.cpu_count())
-    start = time.time()
     result = pool.map(Prepare_frames, frame_seq)
     pool.close()
     pool.join()
