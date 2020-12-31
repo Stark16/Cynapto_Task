@@ -2,15 +2,13 @@ from multiprocessing import Pool        # Pythons Multiprocessing Library
 import multiprocessing
 import cv2                              #
 import numpy as np
-import face_recognition                 # Library that has pretrained models for face recognition
+import face_recognition                 # Library that has pertained models for face recognition
 import time
 from tqdm import tqdm                   # tqdm to visually show task progress
 
 
 # Function that reads the video frames and returns it in frames Variable:
 # By default it can read video of any length, but one can press ESC read the frames to that point in the video
-
-
 def read_frames(input_path):
     video_path = input_path  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
