@@ -25,6 +25,7 @@ All files marked with * are directly realted to the assignment's problem stateme
          * There are a 2 major parent directories named Scripts and Videos
          * Video contain the Input video that is name *Input_video.mp4* and *Input_video2.mp4* the final output video is also saved in this directory with the name                          Output_video.mp4*
          * All the scripts are stored inside a Scripts folder. Which has 1 folder called *cythonized_version* and few python scripts that are the original version of the                    assignment scripts written in python.
+         
 - *cythonized_version*: 
 
          * To convert the python scripts into C, I have used cython compiler. I'll explain how I did in breif.
