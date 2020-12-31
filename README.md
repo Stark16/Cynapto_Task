@@ -32,7 +32,9 @@ All files marked with * are directly realted to the assignment's problem stateme
 
          * To convert the python scripts into C, I have used cython compiler. I'll explain how I did in breif.
          * The original python script is saved as *efficient_face_recognition.pyx* which is imoprted as module in *main.py* to be executed.
-         * In order to compiler the *efficient_face_recognition.pyx* to *efficient_face_recognition.c* I have written *setup.py* which compiles the *efficient_face_recognition*            into *efficient_face_recognition.c* and also produce a *efficient_face_recognition.html* that is visual representation of which parts of the script usese python                  objetcs as variable types.
+         * In order to compiler the *efficient_face_recognition.pyx* to *efficient_face_recognition.c* I have written *setup.py* 
+           which compiles the *efficient_face_recognition* into *efficient_face_recognition.c* and also produce a *efficient_face_recognition.html* 
+           that is visual representation of which parts of the script usese python objetcs as variable types.
          * To re-build the *efficient_face_recognition.c* run the following command in *cythonized_version* directory
          > `python setup.py build_ext --inplace`
 
