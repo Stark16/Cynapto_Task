@@ -1,18 +1,16 @@
-from multiprocessing import Pool        # Pythons Multiprocessing Library
+from multiprocessing import Pool
 import multiprocessing
-import cv2                              #
+import cv2
 import numpy as np
-import face_recognition                 # Library that has pretrained models for face recognition
+import face_recognition
 import time
-from tqdm import tqdm                   # tqdm to visually show task progress
+from tqdm import tqdm
 
 
 # Function that reads the video frames and returns it in frames Variable:
 # By default it can read video of any length, but one can press ESC read the frames to that point in the video
-
-
-def read_frames(input_path):
-    video_path = input_path  # Path to the Video File:
+def read_frames():
+    video_path = './Input Video/Input_video.mp4'  # Path to the Video File:
     cap = cv2.VideoCapture(video_path)
     frames = []  # Variable that will be storing the entire video frame vise
 
@@ -71,12 +69,11 @@ def Prepare_frames(frames_seq):
     marked_frames = np.empty_like(frames_seq)
 
     for i, frame in tqdm(enumerate(frames_seq)):
-        rgb = cv2.resize(frame, (int(frame.shape[1] / 1.3), int(frame.shape[0] / 1.3)))
+        rgb = cv2.resize(frame, (int(frame.shape[1] / 1.5), int(frame.shape[0] / 1.5)))
         rgb = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
-        print(rgb.shape)
         boxes = face_recognition.face_locations(rgb, model='cnn')
         for box in boxes:
-            cv2.rectangle(frame, (int(box[3] * 1.3), int(box[0] * 1.3)), (int(box[1] * 1.3), int(box[2] * 1.3)),
+            cv2.rectangle(frame, (int(box[3] * 1.5), int(box[0] * 1.5)), (int(box[1] * 1.5), int(box[2] * 1.5)),
                           (0, 255, 0), 2)
         # print("1 frame converted now:", len(boxes))
 
@@ -117,19 +114,12 @@ def save_video(result, final_video):
         cv2.waitKey(24)
     cv2.destroyAllWindows()
 
-    print("Video saved by the name Output_Video,mp4:")
+    print("Now saving the video:")
 
 
 
 if __name__ == '__main__':
-    # Some variables that store paths:
-    # TO change the input video or output video path one can change the following variables.
-    # I was originally planning on doing argpars, but since I am using Pycharm and run scripts from there directly
-    # I haven't used argparse.
-
-    input_path = './Input Video/Input_video.mp4'
-    output_path = "Output_Video.mp4"
-    frames = read_frames(input_path)
+    frames = read_frames()
     frame_seq = np.array_split(frames, multiprocessing.cpu_count())
 
     print("Printing OriginalSizes:")
@@ -172,11 +162,9 @@ if __name__ == '__main__':
           )
 
     end = time.time()
-    print()
     print("Time taken by 4 Cores: {}s".format(end - start))
     print("All processing Done")
-    print()
-    print("Now Saving Video:")
+    print("Saving Video:")
 
     final_video = np.empty_like(frames)
     save_video(result, final_video)
