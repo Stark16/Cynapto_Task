@@ -71,12 +71,12 @@ def Prepare_frames(frames_seq):
     marked_frames = np.empty_like(frames_seq)
 
     for i, frame in tqdm(enumerate(frames_seq)):
-        rgb = cv2.resize(frame, (int(frame.shape[1] / 1.7), int(frame.shape[0] / 1.7)))
+        rgb = cv2.resize(frame, (int(frame.shape[1] / 1.2), int(frame.shape[0] / 1.2)))
         rgb = cv2.cvtColor(rgb, cv2.COLOR_BGR2RGB)
         print(rgb.shape)
         boxes = face_recognition.face_locations(rgb, model='cnn')
         for box in boxes:
-            cv2.rectangle(frame, (int(box[3] * 1.7), int(box[0] * 1.7)), (int(box[1] * 1.7), int(box[2] * 1.7)),
+            cv2.rectangle(frame, (int(box[3] * 1.2), int(box[0] * 1.2)), (int(box[1] * 1.2), int(box[2] * 1.2)),
                           (0, 255, 0), 2)
         # print("1 frame converted now:", len(boxes))
 
