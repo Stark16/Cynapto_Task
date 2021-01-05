@@ -4,7 +4,7 @@
          video in 720p, 20 FPS in `.mp4` format.
          
 > **File Structure**:
-All files marked with * are directly related to the assignment's problem statement.
+All files marked with * are final implementations of the problem statement.
 
       |- Scripts
          |- cythonized_version
@@ -17,7 +17,7 @@ All files marked with * are directly related to the assignment's problem stateme
                   |- main_file.py*
                   |- setup.py*
         |
-        |- efficient_face_recognition.py
+        |- efficient_face_recognition.py*
       |
       |- Videos
         |- Input_video.mp4*
