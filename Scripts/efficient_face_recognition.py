@@ -99,7 +99,7 @@ def Prepare_frames(frames_seq):
     return marked_frames
 
 
-# This Function saves the resulting video as the output video at 20 FPS.
+# This Function saves the resulting video as the output video at 20 FPS at the provided "path".
 def save_video(result, final_video, path):
     i = 0
 
